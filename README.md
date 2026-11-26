@@ -18,12 +18,12 @@ server is needed: the bot is one small Node.js program with one SQLite file.
 
 <table>
 <tr>
-<td width="50%"><img src="docs/images/signup-card.png" alt="An event signup card with a live roster of accepted, tentative and declined members"><br><b>Event signups</b>: members RSVP with one click and the roster updates live.</td>
-<td width="50%"><img src="docs/images/intake-case.png" alt="A private application channel with the applicant's answers and Claim, Accept, Deny and Close buttons"><br><b>Recruitment</b>: every applicant gets a private channel with your recruiters.</td>
+<td width="50%" valign="top"><img src="docs/images/signup-card.png" alt="An event signup card with a live roster of accepted, tentative and declined members"><br><b>Event signups</b>: members RSVP with one click and the roster updates live.</td>
+<td width="50%" valign="top"><img src="docs/images/intake-case.png" alt="A private application channel with the applicant's answers and Claim, Accept, Deny and Close buttons"><br><b>Recruitment</b>: every applicant gets a private channel with your recruiters.</td>
 </tr>
 <tr>
-<td><img src="docs/images/cas-member.png" alt="The staff panel's member tools: roles, join date, account age and buttons to add or remove roles, set a nickname, time out or kick"><br><b>Staff panel</b>: roles, nicknames, timeouts and kicks, with role-order checks.</td>
-<td><img src="docs/images/staff-log.png" alt="Staff log cards for a member who joined through a named invite and a member who was kicked with a reason"><br><b>Join tracking</b>: which invite someone used, new-account flags, kicks and bans.</td>
+<td valign="top"><img src="docs/images/cas-member.png" alt="The staff panel's member tools: roles, join date, account age and buttons to add or remove roles, set a nickname, time out or kick"><br><b>Staff panel</b>: roles, nicknames, timeouts and kicks, with role-order checks.</td>
+<td valign="top"><img src="docs/images/staff-log.png" alt="Staff log cards for a member who joined through a named invite and a member who was kicked with a reason"><br><b>Join tracking</b>: which invite someone used, new-account flags, kicks and bans.</td>
 </tr>
 </table>
 
@@ -173,8 +173,8 @@ ping when the event starts (and optionally `@here` or `@everyone`), and whether
 
 <table>
 <tr>
-<td width="42%"><img src="docs/images/signup-form.png" alt="The Create an event signup form filled in with a title, description, date and time, and a limit of 12 places"></td>
-<td width="58%"><img src="docs/images/signup-draft.png" alt="A private preview of the event with a role picker set to Rifleman, an everyone/here choice and Post signup, Tentative and Discard buttons"></td>
+<td width="42%" valign="top"><img src="docs/images/signup-form.png" alt="The Create an event signup form filled in with a title, description, date and time, and a limit of 12 places"></td>
+<td width="58%" valign="top"><img src="docs/images/signup-draft.png" alt="A private preview of the event with a role picker set to Rifleman, an everyone/here choice and Post signup, Tentative and Discard buttons"></td>
 </tr>
 <tr><td>1. Fill in the form.</td><td>2. Check the preview, pick who to ping, post.</td></tr>
 </table>
@@ -199,8 +199,8 @@ they, your recruiters, your staff and the bot can see. One open application per 
 
 <table>
 <tr>
-<td width="55%"><img src="docs/images/intake-panel.png" alt="The Join panel with a Start application button"><br><br><img src="docs/images/intake-case.png" alt="The private application channel with the answers and a short chat between the recruiter and the applicant"></td>
-<td width="45%"><img src="docs/images/intake-form.png" alt="The Application form with five questions answered"></td>
+<td width="55%" valign="top"><img src="docs/images/intake-panel.png" alt="The Join panel with a Start application button"><br><br><img src="docs/images/intake-case.png" alt="The private application channel with the answers and a short chat between the recruiter and the applicant"></td>
+<td width="45%" valign="top"><img src="docs/images/intake-form.png" alt="The Application form with five questions answered"></td>
 </tr>
 </table>
 
@@ -215,8 +215,8 @@ In the channel, recruiters can:
 
 <table>
 <tr>
-<td width="50%"><img src="docs/images/intake-accept.png" alt="A private accept panel with Member and Rifleman picked and an Accept applicant button; it notes that Guest will be removed"></td>
-<td width="50%"><img src="docs/images/intake-closed.png" alt="The channel after accepting: closed by the recruiter, roles given, Guest removed, a link to the saved transcript, and Reopen and Delete channel buttons"></td>
+<td width="50%" valign="top"><img src="docs/images/intake-accept.png" alt="A private accept panel with Member and Rifleman picked and an Accept applicant button; it notes that Guest will be removed"></td>
+<td width="50%" valign="top"><img src="docs/images/intake-closed.png" alt="The channel after accepting: closed by the recruiter, roles given, Guest removed, a link to the saved transcript, and Reopen and Delete channel buttons"></td>
 </tr>
 <tr><td>Accept: pick the roles, confirm.</td><td>The channel locks and the transcript is saved.</td></tr>
 </table>
@@ -234,8 +234,8 @@ do not see tickets unless they also have a support or staff role.
 
 <table>
 <tr>
-<td width="45%"><img src="docs/images/ticket-panel.png" alt="The Contact staff panel with its category menu open: General help, Report a member, Technical issue"></td>
-<td width="55%"><img src="docs/images/ticket-case.png" alt="A private ticket channel about a crash, claimed by a support member who asks for the crash log"></td>
+<td width="45%" valign="top"><img src="docs/images/ticket-panel.png" alt="The Contact staff panel with its category menu open: General help, Report a member, Technical issue"></td>
+<td width="55%" valign="top"><img src="docs/images/ticket-case.png" alt="A private ticket channel about a crash, claimed by a support member who asks for the crash log"></td>
 </tr>
 </table>
 
@@ -259,8 +259,8 @@ health, plus:
 
 <table>
 <tr>
-<td width="50%"><img src="docs/images/cas-home.png" alt="The control panel overview: members, open applications, open tickets, upcoming events, uptime and gateway ping"></td>
-<td width="50%"><img src="docs/images/cas-cases.png" alt="The open cases list: an unclaimed application and a ticket handled by a support member"></td>
+<td width="50%" valign="top"><img src="docs/images/cas-home.png" alt="The control panel overview: members, open applications, open tickets, upcoming events, uptime and gateway ping"></td>
+<td width="50%" valign="top"><img src="docs/images/cas-cases.png" alt="The open cases list: an unclaimed application and a ticket handled by a support member"></td>
 </tr>
 </table>
 
