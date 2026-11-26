@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CAS screenshots</title>
+<!-- Draws one scene recorded by make.js in a Discord-like dark theme.
+     Open with ?scene=<id>; without it every scene is shown, for checking. -->
+<style>
+  :root {
+    --bg: #313338; --bg-alt: #2b2d31; --bg-deep: #1e1f22; --text: #dbdee1; --head: #f2f3f5;
+    --muted: #949ba4; --faint: #80848e; --link: #00a8fc; --line: #3f4147;
+    --blurple: #5865f2; --grey: #4e5058; --green: #248046; --red: #da373c;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.375 "gg sans", "Noto Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
+  .scene { padding-bottom: 14px; }
+  .scene.bare { padding-bottom: 0; }
+  .scene + .scene { border-top: 4px solid #000; }
+  .bar { display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; border-bottom: 1px solid var(--bg-deep);
+    box-shadow: 0 1px 0 rgba(4,4,5,.2); color: var(--head); font-weight: 600; font-size: 16px; }
+  .bar .hash { color: var(--faint); font-size: 22px; font-weight: 400; margin-top: -2px; }
+  .bar .guild { margin-left: auto; color: var(--faint); font-weight: 500; font-size: 13px; }
+  .msg { position: relative; display: grid; grid-template-columns: 40px 1fr; column-gap: 16px; padding: 4px 48px 4px 16px; margin-top: 14px; }
+  .msg.eph { background: rgba(88,101,242,.06); }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 700;
+    color: #fff; font-size: 15px; letter-spacing: -.02em; margin-top: 2px; }
+  .avatar.bot { background: linear-gradient(135deg, #3b82f6, #1d4ed8); font-size: 13px; }
+  .who { display: flex; align-items: baseline; gap: 6px; }
+  .name { color: var(--head); font-weight: 600; }
+  .tag { background: var(--blurple); color: #fff; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 4px;
+    line-height: 15px; position: relative; top: -2px; }
+  .time { color: var(--muted); font-size: 12px; }
+  .content { white-space: normal; word-wrap: break-word; }
+  .content p { margin: 0; }
+  .reply { grid-column: 2; display: flex; align-items: center; gap: 4px; font-size: 13px; color: var(--muted); margin: 0 0 4px; position: relative; }
+  .reply::before { content: ""; position: absolute; left: -36px; top: 8px; width: 30px; height: 12px; border-left: 2px solid #4e5058;
+    border-top: 2px solid #4e5058; border-top-left-radius: 6px; }
+  .reply .mini { width: 16px; height: 16px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+  .reply b { color: var(--head); font-weight: 500; }
+  .mention { background: rgba(88,101,242,.3); color: #c9cdfb; border-radius: 3px; padding: 0 2px; font-weight: 500; }
+  .stamp { background: rgba(255,255,255,.06); border-radius: 3px; padding: 0 2px; }
+  code { background: var(--bg-alt); border: 1px solid #232428; border-radius: 4px; padding: 0 3px; font: 13px Consolas, "SF Mono", monospace; }
+  a { color: var(--link); text-decoration: none; }
+  .small { font-size: 12px; color: var(--muted); display: block; }
+  blockquote { margin: 0; padding-left: 12px; border-left: 4px solid #4e5058; }
+  .embed { margin-top: 4px; max-width: 520px; background: var(--bg-alt); border-radius: 4px; border-left: 4px solid; padding: 8px 16px 16px 12px; }
+  .e-title { color: var(--head); font-weight: 600; font-size: 16px; margin-top: 8px; }
+  .e-desc { font-size: 14px; margin-top: 8px; }
+  .fields { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; margin-top: 8px; font-size: 14px; }
+  .f-name { color: var(--head); font-weight: 600; margin-bottom: 2px; }
+  .e-foot { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .rows { margin-top: 4px; display: flex; flex-direction: column; gap: 8px; padding-top: 4px; max-width: 520px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 2px 16px; border-radius: 8px; color: #fff;
+    font-size: 14px; font-weight: 500; white-space: nowrap; }
+  .btn.icon { padding: 2px 10px; }
+  .s1 { background: var(--blurple); } .s2, .s5 { background: var(--grey); } .s3 { background: var(--green); } .s4 { background: var(--red); }
+  .ext { width: 14px; height: 14px; opacity: .9; }
+  .select { width: 100%; max-width: 400px; min-height: 40px; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    background: var(--bg-deep); border: 1px solid #1e1f22; border-radius: 8px; padding: 6px 12px; font-size: 14px; }
+  .select .ph { color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; background: #2e3035; border-radius: 4px; padding: 2px 6px; font-size: 13px; color: var(--head); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .menu { max-width: 400px; background: var(--bg-alt); border: 1px solid var(--bg-deep); border-radius: 8px; margin-top: -4px; overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0,0,0,.24); }
+  .opt { padding: 9px 12px; font-size: 14px; color: var(--head); }
+  .opt + .opt { border-top: 1px solid rgba(255,255,255,.03); }
+  .opt:first-child { background: rgba(78,80,88,.3); }
+  .opt small { display: block; color: var(--muted); font-size: 12px; }
+  .eph-note { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--muted); }
+  .eph-note a { color: var(--link); }
+  .file { display: flex; align-items: center; gap: 10px; max-width: 432px; margin-top: 6px; padding: 10px; background: var(--bg-alt);
+    border: 1px solid #232428; border-radius: 8px; }
+  .file .fn { color: var(--link); font-size: 15px; }
+  .file .fs { color: var(--muted); font-size: 12px; }
+  /* Modal */
+  .backdrop { background: rgba(0,0,0,.72); padding: 32px 0; display: grid; place-items: center; }
+  .modal { width: 488px; background: var(--bg); border-radius: 8px; box-shadow: 0 0 0 1px rgba(255,255,255,.04), 0 8px 24px rgba(0,0,0,.4); overflow: hidden; }
+  .m-head { display: flex; align-items: center; gap: 10px; padding: 18px 16px 4px; }
+  .m-head .avatar { width: 24px; height: 24px; font-size: 9px; margin: 0; }
+  .m-head .from { color: var(--muted); font-size: 13px; }
+  .m-head .x { margin-left: auto; color: var(--muted); font-size: 22px; line-height: 1; }
+  .m-title { color: var(--head); font-weight: 700; font-size: 20px; padding: 6px 16px 4px; }
+  .m-body { padding: 8px 16px 16px; display: flex; flex-direction: column; gap: 16px; }
+  .m-label { color: #b5bac1; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; margin-bottom: 8px; }
+  .m-label .req { color: #f23f42; margin-left: 4px; }
+  .m-input { background: var(--bg-deep); border-radius: 4px; padding: 10px; font-size: 15px; color: var(--text); min-height: 40px; white-space: pre-wrap; }
+  .m-input.para { min-height: 88px; }
+  .m-input .ph { color: #6d6f78; }
+  .m-foot { background: var(--bg-alt); padding: 16px; display: flex; justify-content: flex-end; gap: 8px; }
+  .m-foot .cancel { color: #fff; font-size: 14px; font-weight: 500; padding: 8px 16px; }
+  .m-foot .submit { background: var(--blurple); color: #fff; font-size: 14px; font-weight: 500; border-radius: 4px; padding: 8px 24px; }
+  .banner { width: 1280px; height: 640px; display: flex; align-items: center; gap: 40px; padding: 0 56px 0 72px; overflow: hidden;
+    background: radial-gradient(circle at 85% 20%, rgba(59,130,246,.28), transparent 45%), linear-gradient(135deg, #0b1220, #151d33 60%, #1b2440); }
+  .b-left { flex: 0 0 520px; }
+  .b-kicker { color: #60a5fa; font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+  .banner h1 { color: #fff; font-size: 60px; line-height: 1.04; margin: 14px 0 18px; letter-spacing: -.02em; }
+  .banner p { color: #c7cfdd; font-size: 20px; line-height: 1.45; margin: 0 0 26px; }
+  .b-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .b-chip { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); color: #e6eaf2; border-radius: 999px; padding: 7px 14px; font-size: 15px; font-weight: 500; }
+  .b-right { flex: 1; display: flex; justify-content: center; }
+  .b-window { width: 760px; zoom: .8; border-radius: 12px; overflow: hidden;
+    background: var(--bg); box-shadow: 0 30px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.08); flex: none; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="scenes.js"></script>
+<script>
+const { directory: DIR, scenes: SCENES } = window.SCENES;
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const hex = (n) => '#' + Number(n || 0).toString(16).padStart(6, '0');
+const PALETTE = ['#e67e22', '#2ecc71', '#9b59b6', '#e74c3c', '#1abc9c', '#f1c40f', '#3498db', '#e91e63'];
+const avatarColor = (name) => PALETTE[[...name].reduce((a, c) => a + c.charCodeAt(0), 0) % PALETTE.length];
+const initials = (name) => name.replace(/^(Sgt|Lt|Cpl|Cpt|Maj|Pvt)\s+/, '').slice(0, 2).toUpperCase();
+
+const fmt = (opts) => new Intl.DateTimeFormat('en-US', { timeZone: DIR.timezone, ...opts });
+let NOW = DIR.now;
+function stamp(sec, style) {
+  const d = new Date(sec * 1000);
+  if (style === 'R') {
+    const diff = sec - NOW / 1000;
+    const abs = Math.abs(diff);
+    if (abs < 45) return diff >= 0 ? 'in a few seconds' : 'a few seconds ago';
+    const [n, unit] = abs < 3600 ? [Math.round(abs / 60), 'minute'] : abs < 86400 ? [Math.round(abs / 3600), 'hour']
+      : abs < 86400 * 30 ? [Math.round(abs / 86400), 'day'] : abs < 86400 * 365 ? [Math.round(abs / 86400 / 30), 'month'] : [Math.round(abs / 86400 / 365), 'year'];
+    const word = `${n} ${unit}${n === 1 ? '' : 's'}`;
+    return diff >= 0 ? `in ${word}` : `${word} ago`;
+  }
+  if (style === 'F') return fmt({ weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }).format(d);
+  if (style === 't') return fmt({ hour: 'numeric', minute: '2-digit' }).format(d);
+  if (style === 'D') return fmt({ month: 'long', day: 'numeric', year: 'numeric' }).format(d);
+  return fmt({ month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }).format(d);
+}
+function msgTime(ms) {
+  const d = new Date(ms);
+  const day = fmt({ year: 'numeric', month: '2-digit', day: '2-digit' });
+  const today = day.format(d) === day.format(new Date(NOW));
+  return `${today ? 'Today at ' : fmt({ month: 'numeric', day: 'numeric', year: 'numeric' }).format(d) + ' '}${fmt({ hour: 'numeric', minute: '2-digit' }).format(d)}`;
+}
+
+// Discord markdown, the parts the bot uses.
+function md(text) {
+  const tokens = [];
+  const hold = (html) => `\u0000${tokens.push(html) - 1}\u0000`;
+  let s = String(text ?? '')
+    .replace(/<@&(\d+)>/g, (_, id) => {
+      const r = DIR.roles[id] || { name: 'deleted-role', color: 0 };
+      const c = r.color ? hex(r.color) : '#c9cdfb';
+      return hold(`<span class="mention" style="color:${c};background:${c}26">@${esc(r.name)}</span>`);
+    })
+    .replace(/<@!?(\d+)>/g, (_, id) => hold(`<span class="mention">@${esc(DIR.users[id]?.name || 'unknown-user')}</span>`))
+    .replace(/<#(\d+)>/g, (_, id) => hold(`<span class="mention">#${esc(DIR.channels[id] || 'unknown')}</span>`))
+    .replace(/<t:(\d+):?([tTdDfFR])?>/g, (_, sec, st) => hold(`<span class="stamp">${esc(stamp(Number(sec), st || 'f'))}</span>`))
+    .replace(/@(here|everyone)/g, (_, w) => hold(`<span class="mention">@${w}</span>`))
+    // Discord shows links to messages in the server as a channel pill.
+    .replace(/https:\/\/discord\.com\/channels\/\d+\/(\d+)\/\d+/g, (_, id) => hold(`<span class="mention">#${esc(DIR.channels[id] || 'unknown')} › 💬</span>`));
+  s = esc(s)
+    .replace(/`([^`]+)`/g, (_, c) => hold(`<code>${c}</code>`))
+    .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a>$1</a>')
+    .replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>')
+    .replace(/(https:\/\/\S+)/g, '<a>$1</a>');
+  s = s.split('\n').map((line) => {
+    if (line.startsWith('-# ')) return `<span class="small">${line.slice(3)}</span>`;
+    if (line.startsWith('&gt; ')) return `<blockquote>${line.slice(5)}</blockquote>`;
+    return line;
+  }).join('<br>').replace(/<\/span><br>/g, '</span>').replace(/<\/blockquote><br>/g, '</blockquote>');
+  return s.replace(/\u0000(\d+)\u0000/g, (_, n) => tokens[n]);
+}
+
+function embedHtml(e, time) {
+  const fields = e.fields || [];
+  let html = '';
+  for (let i = 0; i < fields.length;) {
+    if (!fields[i].inline) { html += fieldHtml(fields[i], 'span 12'); i++; continue; }
+    const run = [];
+    while (i < fields.length && fields[i].inline && run.length < 3) run.push(fields[i++]);
+    run.forEach((f) => { html += fieldHtml(f, `span ${12 / run.length}`); });
+  }
+  const foot = e.footer ? `<div class="e-foot">${esc(e.footer.text)}${e.timestamp ? ` • ${esc(msgTime(Date.parse(e.timestamp) || time))}` : ''}</div>` : '';
+  return `<div class="embed" style="border-color:${hex(e.color ?? 0x3b82f6)}">
+    ${e.title ? `<div class="e-title">${e.url ? `<a>${md(e.title)}</a>` : md(e.title)}</div>` : ''}
+    ${e.description ? `<div class="e-desc">${md(e.description)}</div>` : ''}
+    ${fields.length ? `<div class="fields">${html}</div>` : ''}
+    ${foot}</div>`;
+}
+const fieldHtml = (f, span) => `<div style="grid-column:${span}"><div class="f-name">${md(f.name)}</div><div>${md(f.value)}</div></div>`;
+
+const EXT = '<svg class="ext" viewBox="0 0 24 24" fill="currentColor"><path d="M15 3h6v6h-2V6.41l-8.29 8.3-1.42-1.42L17.59 5H15V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>';
+function componentHtml(c, openMenu) {
+  if (c.type === 2) {
+    const emoji = c.emoji?.name ? `<span>${c.emoji.name}</span>` : '';
+    const label = c.label ? `<span>${esc(c.label)}</span>` : '';
+    return `<span class="btn s${c.style}${c.label ? '' : ' icon'}">${emoji}${label}${c.style === 5 ? EXT : ''}</span>`;
+  }
+  let shown = `<span class="ph">${esc(c.placeholder || 'Make a selection')}</span>`;
+  if (c.type === 3) {
+    const picked = (c.options || []).filter((o) => o.default);
+    if (picked.length) shown = esc(picked.map((o) => o.label).join(', '));
+  } else if (c.default_values?.length) {
+    shown = `<span class="chips">${c.default_values.map((v) => {
+      if (v.type === 'role') { const r = DIR.roles[v.id] || {}; return `<span class="chip"><span class="dot" style="background:${hex(r.color || 0x99aab5)}"></span>${esc(r.name)}</span>`; }
+      if (v.type === 'channel') return `<span class="chip"># ${esc(DIR.channels[v.id])}</span>`;
+      return `<span class="chip">@${esc(DIR.users[v.id]?.name)}</span>`;
+    }).join('')}</span>`;
+  }
+  const arrow = `<svg width="18" height="18" viewBox="0 0 24 24" fill="#b5bac1"><path d="M7 10l5 5 5-5z"/></svg>`;
+  let html = `<div class="select">${shown}${arrow}</div>`;
+  if (openMenu && c.type === 3) {
+    html += `<div class="menu">${c.options.map((o) => `<div class="opt">${o.emoji?.name ? o.emoji.name + ' ' : ''}${esc(o.label)}${o.description ? `<small>${esc(o.description)}</small>` : ''}</div>`).join('')}</div>`;
+  }
+  return html;
+}
+
+function messageHtml(m) {
+  const who = m.author.bot ? { name: m.author.name, color: 0 } : DIR.users[m.author.id] || { name: m.author.name, color: 0 };
+  const avatar = m.author.bot ? `<div class="avatar bot">CA</div>` : `<div class="avatar" style="background:${avatarColor(who.name)}">${esc(initials(who.name))}</div>`;
+  const reply = m.reply ? `<div class="reply"><span class="mini"></span><b>@${esc(m.reply.author)}</b> ${esc(m.reply.text)}</div>` : '';
+  let menuShown = false;
+  const rows = (m.components || []).map((row) => `<div class="row">${(row.components || []).map((c) => {
+    const open = m.openMenu && !menuShown && c.type === 3;
+    if (open) menuShown = true;
+    return componentHtml(c, open);
+  }).join('')}</div>`).join('');
+  const files = (m.files || []).map((f) => `<div class="file"><svg width="30" height="40" viewBox="0 0 30 40"><path d="M2 0h18l10 10v28a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" fill="#e3e5e8"/><path d="M20 0v8a2 2 0 0 0 2 2h8z" fill="#c4c9ce"/><rect x="6" y="18" width="18" height="2" fill="#80848e"/><rect x="6" y="23" width="18" height="2" fill="#80848e"/><rect x="6" y="28" width="12" height="2" fill="#80848e"/></svg><div><div class="fn">${esc(f.name)}</div><div class="fs">${(f.size / 1024).toFixed(2)} KB</div></div></div>`).join('');
+  return `<div class="msg${m.ephemeral ? ' eph' : ''}">
+    ${reply ? `<div></div>${reply}` : ''}
+    ${avatar}
+    <div>
+      <div class="who"><span class="name" style="${who.color ? `color:${hex(who.color)}` : ''}">${esc(who.name)}</span>${m.author.bot ? '<span class="tag">APP</span>' : ''}<span class="time">${esc(msgTime(m.time))}</span></div>
+      ${m.content ? `<div class="content">${md(m.content)}</div>` : ''}
+      ${(m.embeds || []).map((e) => embedHtml(e, m.time)).join('')}
+      ${files}
+      ${rows ? `<div class="rows">${rows}</div>` : ''}
+      ${m.ephemeral ? `<div class="eph-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5C5.6 5 2 12 2 12s3.6 7 10 7 10-7 10-7-3.6-7-10-7zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>Only you can see this • <a>Dismiss message</a></div>` : ''}
+    </div></div>`;
+}
+
+function modalHtml(item) {
+  const inputs = item.modal.components.map((row) => row.components[0]).map((c) => {
+    const value = item.values?.[c.custom_id] ?? c.value ?? '';
+    const body = value ? esc(value) : `<span class="ph">${esc(c.placeholder || '')}</span>`;
+    return `<div><div class="m-label">${esc(c.label)}${c.required !== false ? '<span class="req">*</span>' : ''}</div>
+      <div class="m-input${c.style === 2 ? ' para' : ''}">${body}</div></div>`;
+  }).join('');
+  return `<div class="backdrop"><div class="modal">
+    <div class="m-head"><div class="avatar bot">CA</div><span class="from">${esc(DIR.users[Object.keys(DIR.users).find((k) => DIR.users[k].name === 'Common Access System')]?.name || 'Common Access System')}</span><span class="x">×</span></div>
+    <div class="m-title">${esc(item.modal.title)}</div>
+    <div class="m-body">${inputs}</div>
+    <div class="m-foot"><span class="cancel">Cancel</span><span class="submit">Submit</span></div>
+  </div></div>`;
+}
+
+function bannerHtml(sc) {
+  const ref = SCENES.find((s) => s.id === sc.ref);
+  const chips = ['📅 Event signups', '📝 Recruitment intake', '🎫 Support tickets', '🛡️ Staff panel', '📥 Join tracking']
+    .map((c) => `<span class="b-chip">${c}</span>`).join('');
+  return `<section class="banner">
+    <div class="b-left">
+      <div class="b-kicker">Open source · Self-hosted · MIT</div>
+      <h1>Common Access System</h1>
+      <p>Event signups, recruitment, support tickets and a staff panel for your Discord server. One small Node.js program and one SQLite file. You run it.</p>
+      <div class="b-chips">${chips}</div>
+    </div>
+    <div class="b-right"><div class="b-window">${sceneHtml(ref)}</div></div>
+  </section>`;
+}
+
+function sceneHtml(sc) {
+  if (sc.type === 'banner') return bannerHtml(sc);
+  NOW = sc.now || DIR.now;
+  const bar = `<div class="bar"><span class="hash">#</span>${esc(sc.channel || '')}<span class="guild">${esc(DIR.guild)}</span></div>`;
+  const items = sc.items.map((it) => (it.type === 'modal' ? modalHtml(it) : messageHtml(it))).join('');
+  const modal = sc.items[0]?.type === 'modal';
+  return `<section class="scene${modal ? ' bare' : ''}" id="${esc(sc.id)}">${modal ? '' : bar}${items}</section>`;
+}
+
+const want = new URLSearchParams(location.search).get('scene');
+const list = want ? SCENES.filter((s) => s.id === want) : SCENES;
+document.getElementById('root').innerHTML = list.map(sceneHtml).join('');
+window.sceneBox = () => document.getElementById('root').getBoundingClientRect();
+</script>
+</body>
+</html>

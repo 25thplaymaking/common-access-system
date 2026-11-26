@@ -4,3 +4,4 @@ data/
 *.sqlite
 *.sqlite-*
 npm-debug.log*
+docs/screenshots/scenes.js

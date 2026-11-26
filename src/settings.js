@@ -18,7 +18,7 @@ const DEFAULTS = {
   intake_questions: [
     'How did you find us?',
     'How old are you?',
-    'What time zone are you in and when can you play?',
+    'What time zone are you in? When can you play?',
     'Any previous experience? Tell us about it.',
     'Why do you want to join?',
   ],
