@@ -1,0 +1,15 @@
+services:
+  cas:
+    build: .
+    image: common-access-system
+    container_name: common-access-system
+    env_file: .env
+    environment:
+      DATA_DIR: /app/data
+    volumes:
+      - cas-data:/app/data
+    restart: unless-stopped
+    init: true
+
+volumes:
+  cas-data:
