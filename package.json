@@ -7,7 +7,8 @@
   "private": true,
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning --env-file-if-exists=.env src/index.js",
-    "test": "node --disable-warning=ExperimentalWarning --test \"test/*.test.js\""
+    "test": "node --disable-warning=ExperimentalWarning --test \"test/*.test.js\"",
+    "screenshots": "node --disable-warning=ExperimentalWarning docs/screenshots/make.js"
   },
   "engines": {
     "node": ">=22.13.0"

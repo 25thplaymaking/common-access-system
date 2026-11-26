@@ -1,0 +1,18 @@
+Application #0001 — Northwind Company
+Member: Haddad (100000000000000039)
+Opened: 2026-11-26T20:50:42.000Z
+Closed: 2026-11-26T20:58:42.000Z (accepted)
+
+[2026-11-26 20:51:42] cas-bot [bot]: <@100000000000000039> <@&100000000000000005> <@&100000000000000006>
+Thanks for applying! A recruiter will be with you soon. You can add anything else here.
+    [embed] Application #0001 **Member:** <@100000000000000039>
+**Opened:** <t:1795726242:f>
+**Handled by:** <@100000000000000021>
+      How did you find us?: A friend in the unit (Tanaka) told me about your Saturday ops.
+      How old are you?: 24
+      What time zone are you in? When can you play?: US Eastern. Weeknights after 7pm and most weekends.
+      Any previous experience? Tell us about it.: About 300 hours in milsim, mostly as a medic in a smaller group.
+      Why do you want to join?: I want a regular team with structure and good comms.
+[2026-11-26 20:53:42] lt.okafor: Welcome Haddad, thanks for applying. Can you make the new-member training on Thursday at 19:00 Eastern?
+[2026-11-26 20:55:42] haddad: Yes, I can make that. Do I need anything installed beforehand?
+[2026-11-26 20:57:42] lt.okafor: Just the modpack from #modlist. See you Thursday.
